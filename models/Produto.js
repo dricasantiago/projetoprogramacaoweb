@@ -5,13 +5,13 @@ class Produto {
     static async  listar (){
         try {
             const response = await db.query("select * from produto");
-            console.log(response.rows)
+            return response.rows;
         } catch (error) {
             console.log(error)
         }
     }
 
-    
+
 }
 
 module.exports =  Produto;

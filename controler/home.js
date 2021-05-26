@@ -7,8 +7,8 @@ const index = (req, res) => {
     res.render(`${process.cwd()}/views/index.ejs`)
 }
 
-const listar_produtos = (req, res) => {
-    let produtos = produto.listar();
+const listar_produtos = async (req, res) => {
+    let produtos = await produto.listar();
     res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos })
 }
 

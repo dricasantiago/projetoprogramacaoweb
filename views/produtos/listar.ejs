@@ -50,7 +50,6 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-lg-12">
-
                                     <div class="table-responsive table--no-card m-b-40">
                                         <div class="overview-wrap">
                                             <h2 class="title-1 m-b-25">Listagem de produtos</h2>
@@ -67,16 +66,30 @@
                                                     <th>valor</th>
                                                     <th>marca</th>
                                                     <th>categoria id</th>
-                                                    <th class="text-right">valor unitario</th>
+                                                    <th>Ações</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <% for (var i = 0; i < produtos.length ; i++) { %>
                                                     <tr>
                                                         <td>
-                                                            <%=produtos[i].id %>
+                                                            <%=produtos[i].id%>
                                                         </td>
-
+                                                        <td>
+                                                            <%=produtos[i].nome%>
+                                                        </td>
+                                                        <td>
+                                                            <%=produtos[i].valor%>
+                                                        </td>
+                                                        <td>
+                                                            <%=produtos[i].marca%>
+                                                        </td>
+                                                        <td>
+                                                            <%=produtos[i].categoria_id%>
+                                                        </td>
+                                                        <td>
+                                                            <i class="zmdi zmdi-quit"></i>
+                                                        </td>
 
 
 
