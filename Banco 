@@ -1,0 +1,34 @@
+create table cliente (
+	id serial primary key ,
+	nome varchar(255),
+	endereco varchar,
+	cpf varchar,
+	email varchar,
+	senha varchar,
+	token varchar
+);
+
+create table categoria (
+	id serial primary key ,
+	nome varchar 
+);
+
+create table produto (
+	id serial primary key,
+	nome varchar,
+	valor numeric(8,2),
+	marca varchar ,
+	categoria_id integer references categoria
+) 
+
+create table servico (
+	id serial primary key,
+	tipo varchar,
+	total numeric(8,2),
+	data_entrega varchar,
+	cliente_id integer references cliente,
+	produto integer references produto
+
+);
+
+
