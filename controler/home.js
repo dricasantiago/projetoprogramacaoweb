@@ -11,8 +11,12 @@ const listar_produtos = async (req, res) => {
     let produtos = await produto.listar();
     res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos })
 }
+const formulario_produto = async (req, res) =>{
+    res.render(`${process.cwd()}/views/produtos/adicionar.ejs`)
+} 
 
 module.exports = {
     index,
-    listar_produtos
+    listar_produtos,
+    formulario_produto
 }

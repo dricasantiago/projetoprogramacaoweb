@@ -3,7 +3,8 @@ const bodyParser = require('body-parser')
 const path = require('path')
 
 const app = express();
-const { index, listar_produtos } = require("./controler/home")
+const { index, listar_produtos, formulario_produto } = require("./controler/home")
+
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -13,6 +14,7 @@ app.set("view engine", "ejs")
 
 app.get("/", index)
 app.get("/listar_produtos", listar_produtos)
+app.get("/formulario_produto", formulario_produto);
 
 
 
