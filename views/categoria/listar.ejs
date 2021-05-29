@@ -40,63 +40,56 @@
         <%- include('../menu/index.ejs') %>
             <!-- PAGE CONTAINER-->
             <div class="page-container">
-                <!-- HEADER DESKTOP-->
-
-                <!-- HEADER DESKTOP-->
-
                 <!-- MAIN CONTENT-->
                 <div class="main-content">
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="table-responsive table--no-card m-b-40">
-                                        <div class="overview-wrap">
-                                            <h2 class="title-1 m-b-25">Listagem de produtos</h2>
-
+                                    <% if(erro != true && msg != '') {%>
+                                        <div class="alert alert-success" role="alert">
+                                            <%=msg%>
                                         </div>
+                                        <%} else if (erro == true && msg != ''){%>
+                                            <div class="alert alert-danger" role="alert">
+                                                <%=msg%>
+                                            </div>
+                                            <%}%>
+                                                <div class="table-responsive table--no-card m-b-40">
+                                                    <div class="overview-wrap">
+                                                        <h2 class="title-1 m-b-25">Listagem de produtos</h2>
+                                                    </div>
+                                                    <table class="table table-borderless table-striped table-earning">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Codigo</th>
+                                                                <th>Nome Categoria</th>
+                                                                <th>Ações</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% for (var i = 0; i < categorias.length ; i++) { %>
+                                                                <tr>
+                                                                    <td>
+                                                                        <%=categorias[i].id%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%=categorias[i].nome%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a class="btn btn-danger btn-sm" href="/deletar_categoria/<%=categorias[i].id%>">
+                                                                            <i style="color: #fff;" class="fa fa-trash"></i>
+                                                                        </a>
+                                                                        <a class="btn btn-primary btn-sm" href="/atualizar_categoria/<%=categorias[i].id%>">
+                                                                            <i style="color: #fff;" class="fa fa-refresh"></i>
+                                                                        </a>
 
-
-                                        <table class="table table-borderless table-striped table-earning">
-                                            <thead>
-                                                <tr>
-                                                    <th>Codigo</th>
-                                                    <th>Nome Produto</th>
-                                                    <th>valor</th>
-                                                    <th>marca</th>
-                                                    <th>categoria id</th>
-                                                    <th>Ações</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <% for (var i = 0; i < produtos.length ; i++) { %>
-                                                    <tr>
-                                                        <td>
-                                                            <%=produtos[i].id%>
-                                                        </td>
-                                                        <td>
-                                                            <%=produtos[i].nome%>
-                                                        </td>
-                                                        <td>
-                                                            <%=produtos[i].valor%>
-                                                        </td>
-                                                        <td>
-                                                            <%=produtos[i].marca%>
-                                                        </td>
-                                                        <td>
-                                                            <%=produtos[i].categoria_id%>
-                                                        </td>
-                                                        <td>
-                                                            <i class="zmdi zmdi-quit"></i>
-                                                        </td>
-
-
-
-                                                    </tr>
-                                                    <% } %>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                 </div>
 
                             </div>
