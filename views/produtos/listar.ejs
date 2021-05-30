@@ -13,25 +13,25 @@
     <title>Dashboard</title>
 
     <!-- Fontfaces CSS-->
-    <link href="assets/css/font-face.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="../assets/css/font-face.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-    <!-- assets/vendor CSS-->
-    <link href="assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <!-- ../assets/vendor CSS-->
+    <link href="../assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="../assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="assets/css/theme.css" rel="stylesheet" media="all">
+    <link href="../assets/css/theme.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -40,63 +40,69 @@
         <%- include('../menu/index.ejs') %>
             <!-- PAGE CONTAINER-->
             <div class="page-container">
-                <!-- HEADER DESKTOP-->
-
-                <!-- HEADER DESKTOP-->
-
                 <!-- MAIN CONTENT-->
                 <div class="main-content">
                     <div class="section__content section__content--p30">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="table-responsive table--no-card m-b-40">
-                                        <div class="overview-wrap">
-                                            <h2 class="title-1 m-b-25">Listagem de produtos</h2>
-
+                                    <% if(erro != true && msg != '') {%>
+                                        <div class="alert alert-success" role="alert">
+                                            <%=msg%>
                                         </div>
+                                        <%} else if (erro == true && msg != ''){%>
+                                            <div class="alert alert-danger" role="alert">
+                                                <%=msg%>
+                                            </div>
+                                            <%}%>
+                                                <div class="table-responsive table--no-card m-b-40">
+                                                    <div class="overview-wrap">
+                                                        <h2 class="title-1 m-b-25">Listagem de produtos</h2>
+                                                    </div>
+                                                    <table class="table table-borderless table-striped table-earning">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Codigo</th>
+                                                                <th>Nome Produto</th>
+                                                                <th>valor</th>
+                                                                <th>marca</th>
+                                                                <th>categoria</th>
+                                                                <th>Ações</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <% for (var i = 0; i < produtos.length ; i++) { %>
+                                                                <tr>
+                                                                    <td>
+                                                                        <%=produtos[i].id%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%=produtos[i].nome%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%=produtos[i].valor%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <%=produtos[i].marca%>
+                                                                    </td>
 
+                                                                    <td>
+                                                                        <%=produtos[i].nome_categoria%>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a class="btn btn-danger btn-sm" href="/produto/deletar/<%=produtos[i].id%>">
+                                                                            <i style="color: #fff;" class="fa fa-trash"></i>
+                                                                        </a>
+                                                                        <a class="btn btn-primary btn-sm" href="/formulario/produto/atualizar/<%=produtos[i].id%>">
+                                                                            <i style="color: #fff;" class="fa fa-refresh"></i>
+                                                                        </a>
 
-                                        <table class="table table-borderless table-striped table-earning">
-                                            <thead>
-                                                <tr>
-                                                    <th>Codigo</th>
-                                                    <th>Nome Produto</th>
-                                                    <th>valor</th>
-                                                    <th>marca</th>
-                                                    <th>categoria id</th>
-                                                    <th>Ações</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <% for (var i = 0; i < produtos.length ; i++) { %>
-                                                    <tr>
-                                                        <td>
-                                                            <%=produtos[i].id%>
-                                                        </td>
-                                                        <td>
-                                                            <%=produtos[i].nome%>
-                                                        </td>
-                                                        <td>
-                                                            <%=produtos[i].valor%>
-                                                        </td>
-                                                        <td>
-                                                            <%=produtos[i].marca%>
-                                                        </td>
-                                                        <td>
-                                                            <%=produtos[i].categoria_id%>
-                                                        </td>
-                                                        <td>
-                                                            <i class="zmdi zmdi-quit"></i>
-                                                        </td>
-
-
-
-                                                    </tr>
-                                                    <% } %>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <% } %>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                 </div>
 
                             </div>
@@ -118,28 +124,28 @@
     </div>
 
     <!-- Jquery JS-->
-    <script src="assets/vendor/jquery-3.2.1.min.js"></script>
+    <script src="../assets/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
-    <script src="assets/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- assets/vendor JS       -->
-    <script src="assets/vendor/slick/slick.min.js">
+    <script src="../assets/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="../assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- ../assets/vendor JS       -->
+    <script src="../assets/vendor/slick/slick.min.js">
     </script>
-    <script src="assets/vendor/wow/wow.min.js"></script>
-    <script src="assets/vendor/animsition/animsition.min.js"></script>
-    <script src="assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src="../assets/vendor/wow/wow.min.js"></script>
+    <script src="../assets/vendor/animsition/animsition.min.js"></script>
+    <script src="../assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
-    <script src="assets/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="assets/vendor/counter-up/jquery.counterup.min.js">
+    <script src="../assets/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="../assets/vendor/counter-up/jquery.counterup.min.js">
     </script>
-    <script src="assets/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="assets/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="assets/vendor/select2/select2.min.js">
+    <script src="../assets/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="../assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../assets/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="../assets/vendor/select2/select2.min.js">
     </script>
 
     <!-- Main JS-->
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
 
 </body>
 

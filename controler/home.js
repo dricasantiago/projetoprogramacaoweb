@@ -12,17 +12,17 @@ const index = (req, res) => {
 // --------------------------------------- PRODUTOS --------------------------------------
 
 // lista os produtos e envia para a pagina listar dentro da pasta produtos
-const listar_produtos = async (req, res, next, err) => {
-    const { erro = null } = req.params;
+const listar_produtos = async (req, res) => {
+    const { erro = null } = req.query;
+    let produtos = await produto.listar();
+    let categorias = await categoria.listar()
+ 
     if (erro) {
-        let produtos = await produto.listar();
-        let categorias = await categoria.listar()
         res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos, categorias: categorias, erro: true, msg: 'Algum erro ocorreu, tente novamente' })
     } else {
-        let produtos = await produto.listar();
-        let categorias = await categoria.listar()
-        res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos, categorias: categorias })
+        res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos,  erro: false, msg: '' })
     }
+    
 
 }
 //função para mostrar a pagina de adicionar produto
@@ -48,9 +48,22 @@ const listar_categorias = async (req, res, next) => {
 }
 //função para mostrar a pagina de adicionar Categoria
 const formulario_categoria = async (req, res) => {
+    const { id } = req.params;
+    console.log(`id`, id)
+    if (id) {
+        let result = await categoria.buscarCategoria(id);
+        res.render(`${process.cwd()}/views/categoria/atualizar.ejs`, { msg: '', erro: false, categoria:result })
+    } else {
+        res.render(`${process.cwd()}/views/categoria/adicionar.ejs`, { msg: '', erro: false })
+    }
+
+}
+//função para mostrar a pagina de adicionar Categoria
+const mostrar_formulario = async (req, res) => {
     res.render(`${process.cwd()}/views/categoria/adicionar.ejs`, { msg: '', erro: false })
 
 }
+
 // Cadastra uma categoria no banco e valida os campos
 const adiciona_categoria = async (req, res) => {
     const { nome } = req.body
@@ -91,6 +104,26 @@ const deletar_categoria = async (req, res) => {
     }
 
 }
+const atualizar_categoria = async (req, res) => {
+    const { nome } = req.body
+    const { id } = req.params
+    console.log("Atualizar : ", nome)
+    try {
+        if (id && nome) {
+            const resultado = await categoria.atualizar(id, nome);
+            if (resultado != undefined) {
+                res.redirect("/listar_categorias")
+            } else {
+                throw true
+            }
+        } else {
+            res.redirect('/listar_categorias?erro')
+        }
+    } catch (error) {
+        res.redirect('/listar_categorias?erro')
+    }
+
+}
 
 
 
@@ -102,5 +135,6 @@ module.exports = {
     formulario_categoria,
     listar_categorias,
     adiciona_categoria,
-    deletar_categoria
+    deletar_categoria,
+    atualizar_categoria
 }
