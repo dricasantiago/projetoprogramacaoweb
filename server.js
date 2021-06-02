@@ -4,7 +4,10 @@ const path = require('path')
 
 const app = express();
 //importa as funç~oes do arquivo que esta dentro de controler  no arquivo home.ejs
-const { index, listar_produtos, formulario_produto, formulario_categoria, listar_categorias, adiciona_categoria, deletar_categoria, atualizar_categoria } = require("./controler/home");
+const { index, listar_produtos, formulario_produto,
+     formulario_categoria, listar_categorias, 
+     adiciona_categoria, deletar_categoria, atualizar_categoria,
+     adicionar_produto } = require("./controler/home");
 
 
 
@@ -25,6 +28,7 @@ app.get("/", index)
 app.get("/listar/produtos?:erro", listar_produtos)
 // mostra o formulario para adicionar um produto
 app.get("/formulario/produto/adicionar", formulario_produto);
+app.post("/produto/adicionar", adicionar_produto);
 
 
 // -----------------------CATEGORIA ----------------

@@ -13,25 +13,25 @@
     <title>Forms</title>
 
     <!-- Fontfaces CSS-->
-    <link href="assets/css/font-face.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="../../assets/css/font-face.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
-    <link href="assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-    <!-- assets/vendor CSS-->
-    <link href="assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <!-- ../../assets/vendor CSS-->
+    <link href="../../assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="../../assets/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="assets/css/theme.css" rel="stylesheet" media="all">
+    <link href="../../assets/css/theme.css" rel="stylesheet" media="all">
 
 </head>
 
@@ -47,49 +47,58 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="card">
-                                        <div class="card-header">Adicionar Produto</div>
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <h3 class="text-center title-2">Produto </h3>
+                                    <% if(erro != true && msg != '') {%>
+                                        <div class="alert alert-success" role="alert">
+                                            <%=msg%>
+                                        </div>
+                                        <%} else if (erro == true && msg != ''){%>
+                                            <div class="alert alert-danger" role="alert">
+                                                <%=msg%>
                                             </div>
-                                            <hr>
-                                            <form action="" method="post" novalidate="novalidate">
-                                                <div class="form-group">
-                                                    <label for="cc-payment" class="control-label mb-1">Nome</label>
-                                                    <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false">
-                                                </div>
-                                                <div class="form-group has-success">
-                                                    <label for="cc-name" class="control-label mb-1">Marca</label>
-                                                    <input id="cc-name" name="cc-name" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
-                                                    <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="cc-number" class="control-label mb-1">Valor</label>
-                                                    <input id="cc-number" name="cc-number" type="tel" class="form-control cc-number identified visa" value="" data-val="true" data-val-required="Please enter the card number" data-val-cc-number="Please enter a valid card number" autocomplete="cc-number">
-                                                    <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="cc-number" class="control-label mb-1">Categoria</label>
-                                                    <select name="select" id="select" class="form-control">
-                                                        <option value="0">Please select</option>
-                                                        <option value="1">Option #1</option>
-                                                        <option value="2">Option #2</option>
-                                                        <option value="3">Option #3</option>
+                                            <%}%>
+                                                <div class="card">
+                                                    <div class="card-header">Adicionar Produto</div>
+                                                    <div class="card-body">
+                                                        <div class="card-title">
+                                                            <h3 class="text-center title-2">Produto </h3>
+                                                        </div>
+                                                        <hr>
+                                                        <form action="/produto/adicionar" method="post" novalidate="novalidate">
+                                                            <div class="form-group">
+                                                                <label for="cc-payment" class="control-label mb-1">Nome</label>
+                                                                <input id="cc-pament" name="nome" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                                            </div>
+                                                            <div class="form-group has-success">
+                                                                <label for="cc-name" class="control-label mb-1">Marca</label>
+                                                                <input id="cc-name" name="marca" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="cc-number" class="control-label mb-1">Valor</label>
+                                                                <input id="cc-number" name="valor" type="tel" class="form-control cc-number identified visa" value="" data-val="true" data-val-required="Please enter the card number" data-val-cc-number="Please enter a valid card number" autocomplete="cc-number">
+                                                                <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="cc-number" class="control-label mb-1">Categoria</label>
+                                                                <select name="categoria_id" id="select" class="form-control">
+                                                        <option value="0">Selecione a categoria</option>
+                                                        <% for(let i = 0 ;i < categorias.length ; i++) { %>
+                                                            <option value="<%= categorias[i].id %>"><%=categorias[i].nome%></option>
+                                                            <%}%>
                                                         </select>
-                                                    <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
-                                                </div>
+                                                                <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
+                                                            </div>
 
-                                                <div>
-                                                    <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                                                            <div>
+                                                                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                                                     <i class="fa fa-lock fa-save"></i>&nbsp;
                                                     <span id="payment-button-amount">Adicionar</span>
                                                     <span id="payment-button-sending" style="display:none;">Sending…</span>
                                                 </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
-                                            </form>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -107,28 +116,28 @@
     </div>
 
     <!-- Jquery JS-->
-    <script src="assets/vendor/jquery-3.2.1.min.js"></script>
+    <script src="../../assets/vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->
-    <script src="assets/vendor/bootstrap-4.1/popper.min.js"></script>
-    <script src="assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- assets/vendor JS       -->
-    <script src="assets/vendor/slick/slick.min.js">
+    <script src="../../assets/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="../../assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- ../../assets/vendor JS       -->
+    <script src="../../assets/vendor/slick/slick.min.js">
     </script>
-    <script src="assets/vendor/wow/wow.min.js"></script>
-    <script src="assets/vendor/animsition/animsition.min.js"></script>
-    <script src="assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    <script src="../../assets/vendor/wow/wow.min.js"></script>
+    <script src="../../assets/vendor/animsition/animsition.min.js"></script>
+    <script src="../../assets/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
     </script>
-    <script src="assets/vendor/counter-up/jquery.waypoints.min.js"></script>
-    <script src="assets/vendor/counter-up/jquery.counterup.min.js">
+    <script src="../../assets/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="../../assets/vendor/counter-up/jquery.counterup.min.js">
     </script>
-    <script src="assets/vendor/circle-progress/circle-progress.min.js"></script>
-    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="assets/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="assets/vendor/select2/select2.min.js">
+    <script src="../../assets/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="../../assets/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../../assets/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="../../assets/vendor/select2/select2.min.js">
     </script>
 
     <!-- Main JS-->
-    <script src="assets/js/main.js"></script>
+    <script src="../../assets/js/main.js"></script>
 
 </body>
 

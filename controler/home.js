@@ -15,22 +15,40 @@ const index = (req, res) => {
 const listar_produtos = async (req, res) => {
     const { erro = null } = req.query;
     let produtos = await produto.listar();
-    let categorias = await categoria.listar()
- 
+    console.log("Produtos", produtos)
+
     if (erro) {
-        res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos, categorias: categorias, erro: true, msg: 'Algum erro ocorreu, tente novamente' })
+        res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos, erro: true, msg: 'Algum erro ocorreu, tente novamente' })
     } else {
-        res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos,  erro: false, msg: '' })
+        res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos, erro: false, msg: '' })
     }
-    
+
 
 }
 //função para mostrar a pagina de adicionar produto
 const formulario_produto = async (req, res) => {
-    res.render(`${process.cwd()}/views/produtos/adicionar.ejs`)
+    categorias = await categoria.listar();
+    res.render(`${process.cwd()}/views/produtos/adicionar.ejs`, { categorias: categorias })
 }
-const adiciona_produto = async (req, res) => {
-    res.render(`${process.cwd()}/views/produtos/adicionar.ejs`)
+//função para adicionar um novo produto 
+const adicionar_produto = async (req, res) => {
+    const { nome, marca, valor, categoria_id } = req.body
+    try {
+        if (nome != '' && marca != '' && valor != '' && categoria_id != '') {
+            const resultado = await produto.adicionar(nome, marca, valor, categoria_id)
+            const categorias = await categoria.listar();
+            if (resultado != undefined) {
+                res.render(`${process.cwd()}/views/produtos/adicionar.ejs`, {
+                    msg: 'Produto adicionado com sucesso', erro: false,categorias
+                })
+            } else {
+                throw true
+            }
+        }
+    } catch (error) {
+        res.redirect("/listar/produtos?erro")
+    }
+
 }
 
 // --------------------------------------- CATEGORIA -------------------------------------- 
@@ -52,15 +70,10 @@ const formulario_categoria = async (req, res) => {
     console.log(`id`, id)
     if (id) {
         let result = await categoria.buscarCategoria(id);
-        res.render(`${process.cwd()}/views/categoria/atualizar.ejs`, { msg: '', erro: false, categoria:result })
+        res.render(`${process.cwd()}/views/categoria/atualizar.ejs`, { msg: '', erro: false, categoria: result })
     } else {
         res.render(`${process.cwd()}/views/categoria/adicionar.ejs`, { msg: '', erro: false })
     }
-
-}
-//função para mostrar a pagina de adicionar Categoria
-const mostrar_formulario = async (req, res) => {
-    res.render(`${process.cwd()}/views/categoria/adicionar.ejs`, { msg: '', erro: false })
 
 }
 
@@ -107,7 +120,6 @@ const deletar_categoria = async (req, res) => {
 const atualizar_categoria = async (req, res) => {
     const { nome } = req.body
     const { id } = req.params
-    console.log("Atualizar : ", nome)
     try {
         if (id && nome) {
             const resultado = await categoria.atualizar(id, nome);
@@ -136,5 +148,6 @@ module.exports = {
     listar_categorias,
     adiciona_categoria,
     deletar_categoria,
-    atualizar_categoria
+    atualizar_categoria,
+    adicionar_produto
 }
