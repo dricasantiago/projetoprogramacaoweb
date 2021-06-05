@@ -7,7 +7,8 @@ const app = express();
 const { index, listar_produtos, formulario_produto,
      formulario_categoria, listar_categorias, 
      adiciona_categoria, deletar_categoria, atualizar_categoria,
-     adicionar_produto } = require("./controler/home");
+     adicionar_produto, deletar_produto, atualizar_produto,
+      listar_servicos, formulario_servico,deletar_servico, adiciona_servico } = require("./controler/home");
 
 
 
@@ -28,7 +29,10 @@ app.get("/", index)
 app.get("/listar/produtos?:erro", listar_produtos)
 // mostra o formulario para adicionar um produto
 app.get("/formulario/produto/adicionar", formulario_produto);
+app.get("/formulario/produto/atualizar/:id", formulario_produto);
 app.post("/produto/adicionar", adicionar_produto);
+app.post("/produto/atualizar/:id", atualizar_produto);
+app.get("/produto/deletar/:id", deletar_produto);
 
 
 // -----------------------CATEGORIA ----------------
@@ -45,6 +49,17 @@ app.post("/categoria/adicionar", adiciona_categoria);
 app.post("/categoria/atualizar/:id", atualizar_categoria);
 
 
+
+
+// ----------------------- SERVIÇO ----------------
+// chama a função para listar os produtos
+app.get("/listar/servicos?:erro", listar_servicos)
+// mostra o formulario para adicionar um produto
+app.get("/formulario/servico/adicionar", formulario_servico);
+app.get("/formulario/servico/atualizar/:id", formulario_servico);
+app.post("/servico/adicionar", adiciona_servico);
+// app.post("/servico/atualizar/:id", atualizar_produto);
+app.get("/servico/deletar/:id", deletar_servico);
 
 
 

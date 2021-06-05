@@ -63,9 +63,9 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Codigo</th>
-                                                                <th>Nome Produto</th>
-                                                                <th>valor</th>
+                                                                <th>Nome </th>
                                                                 <th>marca</th>
+                                                                <th>valor</th>
                                                                 <th>categoria</th>
                                                                 <th>Ações</th>
                                                             </tr>
@@ -74,18 +74,17 @@
                                                             <% for (var i = 0; i < produtos.length ; i++) { %>
                                                                 <tr>
                                                                     <td>
-                                                                        <%=produtos[i].id%>
+                                                                        <%=produtos[i].id %>
                                                                     </td>
                                                                     <td>
                                                                         <%=produtos[i].nome%>
                                                                     </td>
                                                                     <td>
-                                                                        <%=produtos[i].valor%>
-                                                                    </td>
-                                                                    <td>
                                                                         <%=produtos[i].marca%>
                                                                     </td>
-
+                                                                    <td>
+                                                                        <%=produtos[i].valor%>
+                                                                    </td>
                                                                     <td>
                                                                         <%=produtos[i].nome_categoria%>
                                                                     </td>

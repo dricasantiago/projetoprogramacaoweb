@@ -2,6 +2,7 @@
 const path = require("path")
 const produto = require("../models/Produto.js")
 const categoria = require("../models/Categoria.js")
+const servico = require("../models/Servico.js")
 
 // mostra a pagina principal do site
 const index = (req, res) => {
@@ -18,17 +19,27 @@ const listar_produtos = async (req, res) => {
     console.log("Produtos", produtos)
 
     if (erro) {
-        res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos, erro: true, msg: 'Algum erro ocorreu, tente novamente' })
+        res.render(`${process.cwd()}/views/produto/listar.ejs`, { produtos: produtos, erro: true, msg: 'Algum erro ocorreu, tente novamente' })
     } else {
-        res.render(`${process.cwd()}/views/produtos/listar.ejs`, { produtos: produtos, erro: false, msg: '' })
+        res.render(`${process.cwd()}/views/produto/listar.ejs`, { produtos: produtos, erro: false, msg: '' })
     }
-
-
 }
+
 //função para mostrar a pagina de adicionar produto
 const formulario_produto = async (req, res) => {
     categorias = await categoria.listar();
-    res.render(`${process.cwd()}/views/produtos/adicionar.ejs`, { categorias: categorias })
+    const { id } = req.params;
+
+
+    if (id) {
+        const resultado = await produto.buscarProduto(id);
+        if (resultado != undefined) {
+            res.render(`${process.cwd()}/views/produto/atualizar.ejs`, { categorias: categorias, produto: resultado, msg: '', erro: false })
+        }
+    } else {
+        res.render(`${process.cwd()}/views/produto/adicionar.ejs`, { categorias: categorias, msg: '', erro: false })
+
+    }
 }
 //função para adicionar um novo produto 
 const adicionar_produto = async (req, res) => {
@@ -38,8 +49,8 @@ const adicionar_produto = async (req, res) => {
             const resultado = await produto.adicionar(nome, marca, valor, categoria_id)
             const categorias = await categoria.listar();
             if (resultado != undefined) {
-                res.render(`${process.cwd()}/views/produtos/adicionar.ejs`, {
-                    msg: 'Produto adicionado com sucesso', erro: false,categorias
+                res.render(`${process.cwd()}/views/produto/adicionar.ejs`, {
+                    msg: 'Produto adicionado com sucesso', erro: false, categorias
                 })
             } else {
                 throw true
@@ -47,6 +58,25 @@ const adicionar_produto = async (req, res) => {
         }
     } catch (error) {
         res.redirect("/listar/produtos?erro")
+    }
+
+}
+
+const deletar_produto = async (req, res) => {
+    const { id } = req.params
+    try {
+        if (id) {
+            const resultado = await produto.deletar(id);
+            if (resultado != undefined) {
+                res.redirect("/listar/produtos")
+            } else {
+                throw true
+            }
+        } else {
+            res.redirect('/listar/produtos?erro')
+        }
+    } catch (error) {
+        res.redirect('/listar/produtos?erro')
     }
 
 }
@@ -134,8 +164,139 @@ const atualizar_categoria = async (req, res) => {
     } catch (error) {
         res.redirect('/listar_categorias?erro')
     }
+}
+const atualizar_produto = async (req, res) => {
+    const { nome, marca, valor, categoria_id } = req.body
+    const { id } = req.params
+    try {
+        if (id && nome && marca && valor && categoria_id) {
+            console.log(`req.body`, req.body)
+            const resultado = await produto.atualizar(id, nome, valor, marca, categoria_id);
+            if (resultado != undefined) {
+                res.redirect("/listar/produtos")
+            } else {
+                throw true
+            }
+        } else {
+            res.redirect('/listar/produtos?erro')
+        }
+    } catch (error) {
+        res.redirect('/listar/produtos?erro')
+    }
+}
+
+// --------------------------------------- Serviços -------------------------------------- 
+
+// lista as categorias  e envia para a pagina listar.ejs dentro da pasta categoria
+const listar_servicos = async (req, res, next) => {
+    const { erro } = req.query;
+    let servicos = await servico.listar();
+    
+    if (erro == undefined) {
+        res.render(`${process.cwd()}/views/servico/listar.ejs`, { servicos: servicos, erro: false, msg: '' })
+    } else {
+        res.render(`${process.cwd()}/views/servico/listar.ejs`, { servicos: servicos, erro: true, msg: 'Algum erro ocorreu, tente novamente' })
+    }
+}
+//função para mostrar a pagina de adicionar Categoria
+const formulario_servico = async (req, res) => {
+    const { id } = req.params;
+    const clientes = [];
+    const produtos = await  produto.listar();
+
+
+    if (id) {
+        let result = await servico.buscarCategoria(id);
+        res.render(`${process.cwd()}/views/servico/atualizar.ejs`, { msg: '', erro: false, categoria: result })
+    } else {
+        res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: '', erro: false, produtos: produtos, clientes:clientes })
+    }
 
 }
+
+// // Cadastra uma categoria no banco e valida os campos
+const adiciona_servico = async (req, res) => {
+    const { tipo, total, data_entrega, cliente_id, produto_id} = req.body
+    const produtos = produto.listar()
+    const clientes = []
+    console.log(`req.body`, req.body)
+    if (Object.keys(req.body).length > 0) {
+        if (tipo == '' || total == '' || data_entrega == '' || cliente_id == '' || produto_id == '') {
+            res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: 'Campo nome vazio', erro: true , produtos, clientes})
+        } else {
+            const resultado = await servico.adicionar(tipo, total, data_entrega, cliente_id, produto_id )
+            if (resultado != undefined) {
+                res.render(`${process.cwd()}/views/servico/adicionar.ejs`, {
+                    msg: 'Serviço adicionada com sucesso', erro: false, produtos, clientes
+                })
+            } else {
+                res.render(`${process.cwd()}/views/servico/adicionar.ejs`, {
+                    msg: 'Algum erro aconteceu ', erro: true, produtos:produtos, clientes:clientes
+                })
+            }
+        }
+    } else {
+        res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: '', erro: null , produtos, clientes})
+    }
+}
+const deletar_servico = async (req, res) => {
+    const { id } = req.params
+ 
+    try {
+        if (id) {
+            
+            const resultado = await servico.deletar(id);
+            if (resultado != undefined) {
+                res.redirect("/listar/servicos")
+            } else {
+                throw true
+            }
+        } else {
+            res.redirect('/listar/servicos?erro')
+        }
+    } catch (error) {
+        console.log(`error`, error)
+        res.redirect('/listar/servicos?erro')
+    }
+
+}
+// const atualizar_categoria = async (req, res) => {
+//     const { nome } = req.body
+//     const { id } = req.params
+//     try {
+//         if (id && nome) {
+//             const resultado = await categoria.atualizar(id, nome);
+//             if (resultado != undefined) {
+//                 res.redirect("/listar_categorias")
+//             } else {
+//                 throw true
+//             }
+//         } else {
+//             res.redirect('/listar_categorias?erro')
+//         }
+//     } catch (error) {
+//         res.redirect('/listar_categorias?erro')
+//     }
+// }
+// const atualizar_produto = async (req, res) => {
+//     const { nome, marca, valor, categoria_id } = req.body
+//     const { id } = req.params
+//     try {
+//         if (id && nome && marca && valor && categoria_id) {
+//             console.log(`req.body`, req.body)
+//             const resultado = await produto.atualizar(id, nome, valor,marca , categoria_id);
+//             if (resultado != undefined) {
+//                 res.redirect("/listar/produtos")
+//             } else {
+//                 throw true
+//             }
+//         } else {
+//             res.redirect('/listar/produtos?erro')
+//         }
+//     } catch (error) {
+//         res.redirect('/listar/produtos?erro')
+//     }
+// }
 
 
 
@@ -149,5 +310,12 @@ module.exports = {
     adiciona_categoria,
     deletar_categoria,
     atualizar_categoria,
-    adicionar_produto
+    adicionar_produto,
+    deletar_produto,
+    atualizar_produto,
+    listar_servicos,
+    formulario_servico,
+    deletar_servico,
+    adiciona_servico
+
 }

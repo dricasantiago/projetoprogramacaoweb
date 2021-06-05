@@ -27,7 +27,7 @@ create table servico (
 	total numeric(8,2),
 	data_entrega varchar,
 	cliente_id integer references cliente,
-	produto integer references produto
+	produto_id integer references produto
 
 );
 
