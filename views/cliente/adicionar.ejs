@@ -57,53 +57,33 @@
                                             </div>
                                             <%}%>
                                                 <div class="card">
-                                                    <div class="card-header">Adicionar Serviço</div>
+                                                    <div class="card-header">Adicionar Cliente</div>
                                                     <div class="card-body">
                                                         <div class="card-title">
-                                                            <h3 class="text-center title-2">Serviço </h3>
+                                                            <h3 class="text-center title-2">Cliente </h3>
                                                         </div>
                                                         <hr>
-                                                        <form action="/servico/adicionar" method="post" novalidate="novalidate">
-                                                            <div class="form-group">
-                                                                <label for="cc-number" class="control-label mb-1">Tipo de serviço</label>
-                                                                <select name="tipo" id="select" class="form-control">
-                                                                    <option value="Compra">Compra</option>
-                                                                    <option value="Conserto">Conserto</option>
-                                                                    
-                                                                </select>
-                                                            </div>
+                                                        <form action="/cliente/adicionar" method="post" novalidate="novalidate">
                                                             <div class="form-group has-success">
-                                                                <label for="cc-name" class="control-label mb-1">data de entrega</label>
-                                                                <input id="cc-name" name="data_entrega" type="date" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                <label for="cc-name" class="control-label mb-1">Nome</label>
+                                                                <input id="cc-name" name="nome" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
                                                                 <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                                                             </div>
                                                             <div class="form-group has-success">
-                                                                <label for="cc-name" class="control-label mb-1">Total</label>
-                                                                <input id="cc-name" name="total" type="number" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                <label for="cc-name" class="control-label mb-1">Email</label>
+                                                                <input id="cc-name" name="email" type="email" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
                                                                 <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                                                             </div>
-
-                                                            <div class="form-group">
-                                                                <label for="cc-number" class="control-label mb-1">Cliente</label>
-                                                                <select name="cliente_id" id="select" class="form-control">
-                                                        <option value="null">Selecione o cliente</option>
-                                                        <% for(let i = 0 ;i < clientes.length ; i++) { %>
-                                                            <option value="<%= clientes[i].id %>"><%=clientes[i].nome%></option>
-                                                            <%}%>
-                                                        </select>
+                                                            <div class="form-group has-success">
+                                                                <label for="cc-name" class="control-label mb-1">Cpf</label>
+                                                                <input id="cc-name" name="cpf" type="number" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                                                             </div>
-
-                                                            <div class="form-group">
-                                                                <label for="cc-number" class="control-label mb-1">Produto</label>
-                                                                <select name="produto_id" id="select" class="form-control">
-                                                    <option value="0">Selecione o produto</option>
-                                                    <% for(let i = 0 ;i < produtos.length ; i++) { %>
-                                                        <option value="<%= produtos[i].id %>"><%=produtos[i].nome%></option>
-                                                        <%}%>
-                                                    </select>
-                                                                <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
+                                                            <div class="form-group has-success">
+                                                                <label for="cc-name" class="control-label mb-1">Endereço</label>
+                                                                <input id="cc-name" name="endereco" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                                                             </div>
-
                                                             <div>
                                                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                                                     <i class="fa fa-lock fa-save"></i>&nbsp;

@@ -41,9 +41,9 @@ class Servico {
         }
     }
     static async atualizar(id, tipo, total, data_entrega, cliente_id, produto_id) {
-        console.log(`id` + id + "nome : " + nome)
+        console.log(`id servico`, id, tipo, total, data_entrega, cliente_id, produto_id)
         try {
-            const response = await db.query("UPDATE servico SET tipo = $1,total = $2,data_entrega = $3,client_id = $4,produto_id = $5, WHERE id = $2 returning true", [tipo, total, data_entrega, cliente_id, produto_id, id]);
+            const response = await db.query("UPDATE servico SET tipo = $1,total = $2,data_entrega = $3,cliente_id = $4,produto_id = $5 WHERE id = $6 returning true", [tipo, total, data_entrega, cliente_id, produto_id, id]);
             return response.rows;
         } catch (error) {
             console.log("Erro", error)

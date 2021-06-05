@@ -21,7 +21,7 @@
     <!-- Bootstrap CSS-->
     <link href="../../../assets/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
 
-    <!-- ../../../assets/vendor CSS-->
+    <!-- ../../assets/vendor CSS-->
     <link href="../../../assets/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
     <link href="../../../assets/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
     <link href="../../../assets/vendor/wow/animate.css" rel="stylesheet" media="all">
@@ -57,54 +57,33 @@
                                             </div>
                                             <%}%>
                                                 <div class="card">
-                                                    <div class="card-header">Adicionar Serviço</div>
+                                                    <div class="card-header">Atualizar Cliente</div>
                                                     <div class="card-body">
                                                         <div class="card-title">
-                                                            <h3 class="text-center title-2">Serviço </h3>
+                                                            <h3 class="text-center title-2">Cliente </h3>
                                                         </div>
                                                         <hr>
-                                                        <form action="/servico/atualizar/<%=servico.id%>" method="post" novalidate="novalidate">
-                                                            <div class="form-group">
-                                                                <label for="cc-number" class="control-label mb-1">Tipo de serviço</label>
-                                                                <select name="tipo" id="select" value="<%=servico.tipo%>" class="form-control">
-                                                                    <option value="Compra">Compra</option>
-                                                                    <option value="Conserto">Conserto</option>
-                                                                    
-                                                                </select>
-                                                            </div>
+                                                        <form action="/cliente/atualizar/<%=cliente.id%>" method="post" novalidate="novalidate">
                                                             <div class="form-group has-success">
-                                                                <label for="cc-name" class="control-label mb-1">data de entrega</label>
-                                                                <input id="cc-name" name="data_entrega" value="<%=servico.data_entrega%>" type="date" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false"
-                                                                    aria-describedby="cc-name-error">
+                                                                <label for="cc-name" class="control-label mb-1">Nome</label>
+                                                                <input id="cc-name" name="nome" value="<%=cliente.nome%>" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
                                                                 <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                                                             </div>
                                                             <div class="form-group has-success">
-                                                                <label for="cc-name" class="control-label mb-1">Total</label>
-                                                                <input id="cc-name" name="total" type="number" value="<%=servico.total%>" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                <label for="cc-name" class="control-label mb-1">Email</label>
+                                                                <input id="cc-name" name="email" value="<%=cliente.email%>" type="email" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
                                                                 <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                                                             </div>
-
-                                                            <div class="form-group">
-                                                                <label for="cc-number" class="control-label mb-1">Cliente</label>
-                                                                <select name="cliente_id" value="<%=servico.cliente_id%>" id="select" class="form-control">
-                                                        <option value="null">Selecione o cliente</option>
-                                                        <% for(let i = 0 ;i < clientes.length ; i++) { %>
-                                                            <option value="<%= clientes[i].id %>"><%=clientes[i].nome%></option>
-                                                            <%}%>
-                                                        </select>
+                                                            <div class="form-group has-success">
+                                                                <label for="cc-name" class="control-label mb-1">Cpf</label>
+                                                                <input id="cc-name" name="cpf" value="<%=cliente.cpf%>" type="number" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                                                             </div>
-
-                                                            <div class="form-group">
-                                                                <label for="cc-number" class="control-label mb-1">Produto</label>
-                                                                <select name="produto_id" value="<%=servico.produto_id%>" id="select" class="form-control">
-                                                    <option value="0">Selecione o produto</option>
-                                                    <% for(let i = 0 ;i < produtos.length ; i++) { %>
-                                                        <option value="<%= produtos[i].id %>"><%=produtos[i].nome%></option>
-                                                        <%}%>
-                                                    </select>
-                                                                <span class="help-block" data-valmsg-for="cc-number" data-valmsg-replace="true"></span>
+                                                            <div class="form-group has-success">
+                                                                <label for="cc-name" class="control-label mb-1">Endereço</label>
+                                                                <input id="cc-name" name="endereco" value="<%=cliente.endereco%>" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card" autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
+                                                                <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
                                                             </div>
-
                                                             <div>
                                                                 <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                                                     <i class="fa fa-lock fa-save"></i>&nbsp;
@@ -136,7 +115,7 @@
     <!-- Bootstrap JS-->
     <script src="../../../assets/vendor/bootstrap-4.1/popper.min.js"></script>
     <script src="../../../assets/vendor/bootstrap-4.1/bootstrap.min.js"></script>
-    <!-- ../../../assets/vendor JS       -->
+    <!-- ../../assets/vendor JS       -->
     <script src="../../../assets/vendor/slick/slick.min.js">
     </script>
     <script src="../../../assets/vendor/wow/wow.min.js"></script>

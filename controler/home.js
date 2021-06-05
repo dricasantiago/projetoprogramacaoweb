@@ -3,6 +3,7 @@ const path = require("path")
 const produto = require("../models/Produto.js")
 const categoria = require("../models/Categoria.js")
 const servico = require("../models/Servico.js")
+const cliente = require("../models/Cliente")
 
 // mostra a pagina principal do site
 const index = (req, res) => {
@@ -191,7 +192,7 @@ const atualizar_produto = async (req, res) => {
 const listar_servicos = async (req, res, next) => {
     const { erro } = req.query;
     let servicos = await servico.listar();
-    
+
     if (erro == undefined) {
         res.render(`${process.cwd()}/views/servico/listar.ejs`, { servicos: servicos, erro: false, msg: '' })
     } else {
@@ -201,50 +202,49 @@ const listar_servicos = async (req, res, next) => {
 //função para mostrar a pagina de adicionar Categoria
 const formulario_servico = async (req, res) => {
     const { id } = req.params;
-    const clientes = [];
-    const produtos = await  produto.listar();
-
+    const clientes = await cliente.listar();
+    const produtos = await produto.listar();
 
     if (id) {
-        let result = await servico.buscarCategoria(id);
-        res.render(`${process.cwd()}/views/servico/atualizar.ejs`, { msg: '', erro: false, categoria: result })
+        let result = await servico.buscarServico(id);
+        res.render(`${process.cwd()}/views/servico/atualizar.ejs`, { msg: '', erro: false, servico: result, produtos: produtos, clientes: clientes })
     } else {
-        res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: '', erro: false, produtos: produtos, clientes:clientes })
+        res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: '', erro: false, produtos: produtos, clientes: clientes })
     }
 
 }
 
 // // Cadastra uma categoria no banco e valida os campos
 const adiciona_servico = async (req, res) => {
-    const { tipo, total, data_entrega, cliente_id, produto_id} = req.body
+    const { tipo, total, data_entrega, cliente_id, produto_id } = req.body
     const produtos = produto.listar()
     const clientes = []
     console.log(`req.body`, req.body)
     if (Object.keys(req.body).length > 0) {
         if (tipo == '' || total == '' || data_entrega == '' || cliente_id == '' || produto_id == '') {
-            res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: 'Campo nome vazio', erro: true , produtos, clientes})
+            res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: 'Campo nome vazio', erro: true, produtos, clientes })
         } else {
-            const resultado = await servico.adicionar(tipo, total, data_entrega, cliente_id, produto_id )
+            const resultado = await servico.adicionar(tipo, total, data_entrega, cliente_id, produto_id)
             if (resultado != undefined) {
                 res.render(`${process.cwd()}/views/servico/adicionar.ejs`, {
                     msg: 'Serviço adicionada com sucesso', erro: false, produtos, clientes
                 })
             } else {
                 res.render(`${process.cwd()}/views/servico/adicionar.ejs`, {
-                    msg: 'Algum erro aconteceu ', erro: true, produtos:produtos, clientes:clientes
+                    msg: 'Algum erro aconteceu ', erro: true, produtos: produtos, clientes: clientes
                 })
             }
         }
     } else {
-        res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: '', erro: null , produtos, clientes})
+        res.render(`${process.cwd()}/views/servico/adicionar.ejs`, { msg: '', erro: null, produtos, clientes })
     }
 }
 const deletar_servico = async (req, res) => {
     const { id } = req.params
- 
+
     try {
         if (id) {
-            
+
             const resultado = await servico.deletar(id);
             if (resultado != undefined) {
                 res.redirect("/listar/servicos")
@@ -260,46 +260,114 @@ const deletar_servico = async (req, res) => {
     }
 
 }
-// const atualizar_categoria = async (req, res) => {
-//     const { nome } = req.body
-//     const { id } = req.params
-//     try {
-//         if (id && nome) {
-//             const resultado = await categoria.atualizar(id, nome);
-//             if (resultado != undefined) {
-//                 res.redirect("/listar_categorias")
-//             } else {
-//                 throw true
-//             }
-//         } else {
-//             res.redirect('/listar_categorias?erro')
-//         }
-//     } catch (error) {
-//         res.redirect('/listar_categorias?erro')
-//     }
-// }
-// const atualizar_produto = async (req, res) => {
-//     const { nome, marca, valor, categoria_id } = req.body
-//     const { id } = req.params
-//     try {
-//         if (id && nome && marca && valor && categoria_id) {
-//             console.log(`req.body`, req.body)
-//             const resultado = await produto.atualizar(id, nome, valor,marca , categoria_id);
-//             if (resultado != undefined) {
-//                 res.redirect("/listar/produtos")
-//             } else {
-//                 throw true
-//             }
-//         } else {
-//             res.redirect('/listar/produtos?erro')
-//         }
-//     } catch (error) {
-//         res.redirect('/listar/produtos?erro')
-//     }
-// }
 
+const atualizar_servico = async (req, res) => {
+    const { tipo, total, data_entrega, cliente_id, produto_id } = req.body
+    const { id } = req.params
+    console.log(`req.body`, req.body)
+    try {
+        if (id && tipo && total && data_entrega && cliente_id && produto_id) {
+            console.log(`req.body`, req.body)
+            const resultado = await servico.atualizar(id, tipo, total, data_entrega, cliente_id, produto_id);
+            if (resultado != undefined) {
+                res.redirect("/listar/servicos")
+            } else {
+                throw true
+            }
+        } else {
+            res.redirect('/listar/servicos?erro')
+        }
+    } catch (error) {
+        res.redirect('/listar/servicos?erro')
+    }
+}
 
+// -------------------------------- Clientes ----------------------
+const listar_clientes = async (req, res, next) => {
+    const { erro } = req.query;
+    let clientes = await cliente.listar();
+    if (erro == undefined) {
+        res.render(`${process.cwd()}/views/cliente/listar.ejs`, { clientes: clientes, erro: false, msg: '' })
+    } else {
+        res.render(`${process.cwd()}/views/cliente/listar.ejs`, { clientes: clientes, erro: true, msg: 'Algum erro ocorreu, tente novamente' })
+    }
+}
 
+const deletar_cliente = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        if (id) {
+
+            const resultado = await cliente.deletar(id);
+            if (resultado != undefined) {
+                res.redirect("/listar/clientes")
+            } else {
+                throw true
+            }
+        } else {
+            res.redirect('/listar/clientes?erro')
+        }
+    } catch (error) {
+        console.log(`error`, error)
+        res.redirect('/listar/clientes?erro')
+    }
+
+}
+
+const formulario_cliente = async (req, res) => {
+    const { id } = req.params;
+    if (id) {
+        let result = await cliente.buscarCategoria(id);
+        res.render(`${process.cwd()}/views/cliente/atualizar.ejs`, { msg: '', erro: false, cliente: result })
+    } else {
+        res.render(`${process.cwd()}/views/cliente/adicionar.ejs`, { msg: '', erro: false })
+    }
+
+}
+
+const adiciona_cliente = async (req, res) => {
+    const { nome, endereco, cpf, email } = req.body
+    if (Object.keys(req.body).length > 0) {
+        if (nome == '' || endereco == '' || cpf == '' || email == '') {
+            res.render(`${process.cwd()}/views/cliente/adicionar.ejs`, { msg: 'Campo nome vazio', erro: true })
+        } else {
+            const resultado = await cliente.adicionar(nome, endereco, cpf, email)
+            if (resultado != undefined) {
+                res.render(`${process.cwd()}/views/cliente/adicionar.ejs`, {
+                    msg: 'Cliente adicionado com sucesso', erro: false
+                })
+            } else {
+                res.render(`${process.cwd()}/views/cliente/adicionar.ejs`, {
+                    msg: 'Algum erro aconteceu ', erro: true
+                })
+            }
+        }
+    } else {
+        res.render(`${process.cwd()}/views/cliente/adicionar.ejs`, { msg: '', erro: null })
+    }
+}
+
+const atualizar_cliente = async (req, res) => {
+    const { nome, endereco, cpf, email } = req.body
+    const { id } = req.params
+
+    try {
+        if (id && nome && endereco && cpf && email) {
+
+            const resultado = await cliente.atualizar(id, nome, endereco, cpf, email);
+            if (resultado != undefined) {
+                res.redirect("/listar/clientes")
+            } else {
+                throw true
+            }
+        } else {
+            res.redirect('/listar/clientes?erro')
+        }
+    } catch (error) {
+        res.redirect('/listar/clientes?erro')
+    }
+}
 //exporta as funções para serem usadas em outros lugares 
 module.exports = {
     index,
@@ -316,6 +384,12 @@ module.exports = {
     listar_servicos,
     formulario_servico,
     deletar_servico,
-    adiciona_servico
+    adiciona_servico,
+    listar_clientes,
+    deletar_cliente,
+    formulario_cliente,
+    adiciona_cliente,
+    atualizar_cliente,
+    atualizar_servico
 
 }
