@@ -86,6 +86,7 @@
                                                             <div class="form-group">
                                                                 <label for="cc-number" class="control-label mb-1">Cliente</label>
                                                                 <select name="cliente_id" id="select" class="form-control">
+                                                                    <%- console.log("PRODTUOS ", produtos)%>
                                                         <option value="null">Selecione o cliente</option>
                                                         <% for(let i = 0 ;i < clientes.length ; i++) { %>
                                                             <option value="<%= clientes[i].id %>"><%=clientes[i].nome%></option>

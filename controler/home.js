@@ -217,8 +217,8 @@ const formulario_servico = async (req, res) => {
 // // Cadastra uma categoria no banco e valida os campos
 const adiciona_servico = async (req, res) => {
     const { tipo, total, data_entrega, cliente_id, produto_id } = req.body
-    const produtos = produto.listar()
-    const clientes = []
+    const produtos = await produto.listar();
+    const clientes = await cliente.listar();
     console.log(`req.body`, req.body)
     if (Object.keys(req.body).length > 0) {
         if (tipo == '' || total == '' || data_entrega == '' || cliente_id == '' || produto_id == '') {
@@ -227,7 +227,7 @@ const adiciona_servico = async (req, res) => {
             const resultado = await servico.adicionar(tipo, total, data_entrega, cliente_id, produto_id)
             if (resultado != undefined) {
                 res.render(`${process.cwd()}/views/servico/adicionar.ejs`, {
-                    msg: 'Serviço adicionada com sucesso', erro: false, produtos, clientes
+                    msg: 'Serviço adicionada com sucesso', erro: false, produtos: produtos, clientes: clientes
                 })
             } else {
                 res.render(`${process.cwd()}/views/servico/adicionar.ejs`, {
